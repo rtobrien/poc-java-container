@@ -39,8 +39,8 @@ jobs:
           docker context ls
           export branch=$(echo ${{ github.ref }} | sed 's/.*\///')
           #docker buildx inspect imagetools inspect 
-          #docker build \
-          docker buildx build \
+          #docker buildx build \
+          docker build \
           --platform linux/arm-64 \
           -q . \
           -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:$branch \
