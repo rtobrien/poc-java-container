@@ -1,0 +1,55 @@
+name: CI/CD Pipeline
+on:
+  #Manually trigger workflow runs
+  workflow_dispatch:
+  #Trigger the workflow on push from the main branch
+  push:
+    branches:
+      - main
+
+jobs:
+  writefiles:
+    name: Write Files
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - uses: actions/checkout@v3
+      -
+        name: Write some files
+        # Use https://github.com/marketplace/actions/github-script to expose gh api calls
+        run: |
+          ls ./.github/variables/
+          echo "ref=${{ github.ref }}" > ./.github/variables/actions.var
+          echo "actor=${{ github.actor }}" >> ./.github/variables/actions.var
+          echo "event_name=${{ github.event_name }}" >> ./.github/variables/actions.var
+          echo "sha=${{ github.sha }}" >> ./.github/variables/actions.var
+          echo "shortsha=$(${{ github.sha }} | sed 's^/\(.......\)/.')" >> ./.github/variables/actions.var
+
+          ls ./.github/variables/
+
+      -
+        name: Try to get git to do stuff
+        run: |
+          echo "git actions"
+          git log
+
+      -
+        name: Import files
+        run: |
+          source ./.github/variables/actions.vars
+          echo $var
+          source ./.github/variables/default.vars
+
+  docker-build-and-push:
+    name: Docker Build and Push
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+      -
+        name: Authenticate to GitHub Container Registry

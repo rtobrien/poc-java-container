@@ -1,0 +1,49 @@
+name: CI/CD Pipeline
+on:
+  #Manually trigger workflow runs
+  workflow_dispatch:
+  #Trigger the workflow on push from the main branch
+  push:
+    branches:
+      - main
+  
+permissions:
+  contents: write
+  packages: write
+
+env:
+  PACKAGE_NAME: helloworld
+
+  
+jobs:
+  docker-build-and-push:
+    name: Docker Build and Push
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v3
+      
+      -
+        name: Authenticate to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          
+      -
+        name: Build and Push Container
+        run: | 
+          docker context ls
+          export branch=$(echo ${{ github.ref }} | sed 's/.*\///')
+          #docker buildx inspect imagetools inspect 
+          #docker build \
+          docker buildx build \
+          --platform linux/arm-64 \
+          -q . \
+          -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:$branch \
+          -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:${{ github.sha }} \
+          -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:${{ github.actor }}
+          docker push ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }} --all-tags
