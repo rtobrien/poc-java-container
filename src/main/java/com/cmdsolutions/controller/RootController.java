@@ -22,7 +22,7 @@ protected final  Logger LOGGER = LoggerFactory.getLogger(RootController.class);
 
 	@RequestMapping("/status")
 	public String getStatus() {
-	    return "Cuscal SpringBoot POC is online...";
+	    return "SpringBoot POC is online...";
 	}
 	
 }
