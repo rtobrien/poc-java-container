@@ -36,7 +36,6 @@ jobs:
           #docker buildx inspect imagetools inspect 
           #docker buildx build \
           docker build \
-          --platform linux/arm64 \
           -q . \
           -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:$branch \
           -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:${{ github.sha }} \
