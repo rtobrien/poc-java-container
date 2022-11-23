@@ -21,7 +21,7 @@ public class RootController {
 protected final  Logger LOGGER = LoggerFactory.getLogger(RootController.class);
 
 	@RequestMapping("/status")
-	public String getStatus() {
+	public String getStatus) {
 	    return "SpringBoot POC is online...";
 	}
 	
