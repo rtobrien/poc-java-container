@@ -91,7 +91,7 @@
   
   
   <build>    
-   <finalName>cuscal-spring-poc</finalName>
+   <finalName>spring-poc</finalName>
    <pluginManagement>
             <plugins>
                 <plugin>
