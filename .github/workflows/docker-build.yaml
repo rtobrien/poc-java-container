@@ -8,6 +8,7 @@ permissions:
 
 env:
   PACKAGE_NAME: helloworld
+  SHORT_SHA: $(echo ${{ github.sha }}} | cut -c1-8)
 
 jobs:
   maven-test:
@@ -28,7 +29,9 @@ jobs:
           cache: maven
 
       - name: Maven Testing
-        run: mvn clean test
+        run: |
+          mvn clean test
+          echo $0
 
 
   docker-build-and-push:
@@ -51,8 +54,6 @@ jobs:
           
       -
         name: Build and Push Container
-        env:
-          SHORT_SHA: $(echo ${{ github.sha }}} | cut -c1-8)
         run: | 
           docker context ls
           export branch=$(echo ${{ github.ref }} | sed 's/.*\///')
