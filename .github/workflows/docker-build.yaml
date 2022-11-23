@@ -28,7 +28,7 @@ jobs:
           cache: maven
 
       - name: Maven Testing
-        run: mvn clean test verify
+        run: mvn clean test
 
 
   docker-build-and-push:
