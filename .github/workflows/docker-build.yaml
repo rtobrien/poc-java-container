@@ -62,5 +62,5 @@ jobs:
           -q . \
           -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:$branch \
           -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:${{ env.SHORT_SHA }} \
-          -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:${{ github.actor }}
+          -t ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }}:latest
           docker push ghcr.io/${{ github.repository_owner }}/${{ env.PACKAGE_NAME }} --all-tags
